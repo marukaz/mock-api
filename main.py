@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from fastapi import FastAPI
 from fastapi.responses import FileResponse
 from openpyxl import Workbook
@@ -26,3 +28,9 @@ async def get_excel():
         file_path,
         media_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
     )
+
+@app.post("/receive_entity")
+async def receive_entity(entity: dict):
+    date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    with open(f"entity_{date}.txt", "w") as f:
+        f.write(str(entity))
